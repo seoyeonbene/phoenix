@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css"/>
+    <script data-require="angularjs@1.5.8" data-semver="1.5.8"
+            src="https://opensource.keycdn.com/angularjs/1.5.8/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body ng-app="sample" ng-controller="SampleCtrl">
+<div class="container">
+
+    <!-- <h4>TO-DO list</h4> -->
+    <sample-title></sample-title>
+
+    <form name="sampleForm" ng-submit="add(newSampleData)">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="newSampleData" placeholder="input new data..." autofocus
+                   minlength="3">
+  				<span class="input-group-btn">
+  					<button class="btn btn-success" type="submit">add</button>
+			    </span>
+        </div>
+        <div ng-show="sampleForm.$dirty && sampleForm.$invalid">
+            <div class="alert alert-warning" role="alert">min length 3 character.</div>
+        </div>
+    </form>
+
+    <pre>{{ sampleForm | json}}</pre>
+
+    <ul class="list-unstyled">
+        <li ng-repeat="data in datas | filter:statusFilter">
+            <div class="input-group">
+			      <span class="input-group-addon">
+			        <input type="checkbox" ng-model="data.completed">
+			      </span>
+                <input type="text" class="form-control" ng-model="data.name">
+			      <span class="input-group-btn">
+			      	<button class="btn btn-danger" type="button" ng-click="remove(data)">delete</button>
+			      </span>
+            </div>
+            <!-- /input-group -->
+            <date>{{data.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</date>
+        </li>
+    </ul>
+
+    <button class="btn btn-primary" ng-click="statusFilter={completed:true}">Completed</button>
+    <button class="btn btn-primary" ng-click="statusFilter={completed:false}">Active</button>
+    <button class="btn btn-primary" ng-click="statusFilter={}">All</button>
+</div>
+
+</body>
+
+</html>
